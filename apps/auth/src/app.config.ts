@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { EnvGlobalModule } from '~/libs/shared/src/config.module';
-import { AppModule } from './app/app.module';
+import { AuthModule } from './app/auth.module';
 import { TypeOrmModule } from './modules/database.module';
 
 @Module({
-  imports: [EnvGlobalModule, TypeOrmModule, AppModule],
+  imports: [EnvGlobalModule, TypeOrmModule, AuthModule],
 })
 export class AppConfigModule {}

@@ -26,6 +26,9 @@
       ],
       "@ConfigService": [
         "libs/shared/src/lib/config/index.ts"
+      ],
+      "@type/*": [
+        "libs/shared/src/lib/types/*"
       ]
     }
   }
