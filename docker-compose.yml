@@ -1,0 +1,197 @@
+# version: '3'
+
+services:
+  # kafkamonitor:
+  #   image: obsidiandynamics/kafdrop:latest
+  #   restart: always
+  #   ports:
+  #     - 9000:9000
+  #   environment:
+  #     - KAFKA_BROKERCONNECT=localhost:9093,kafka:9092
+  #     # - JVM_OPTS="-Xms32M -Xmx128M"
+  #     - SERVER_SERVLET_CONTEXTPATH="/"
+  #   networks:
+  #     - backend
+  #   depends_on:
+  #     - zookeeper
+  #     - kafka
+
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   restart: always
+  #   ports:
+  #     - 5080:80
+  #   environment:
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  #     PGADMIN_DEFAULT_EMAIL: admin@domain.com
+  #   networks:
+  #     - backend
+
+  zookeeper:
+    image: bitnami/zookeeper
+    restart: always
+    ports:
+      - 2181:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - backend
+
+  kafka:
+    image: bitnami/kafka:latest
+    ports:
+      - 9092:9092
+      - 9093:9093
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://kafka:9093
+      - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
+
+      # - KAFKA_BROKER_ID=1
+      # - ALLOW_PLAINTEXT_LISTENER=yes
+      # - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      # - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      # - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
+      # - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+      # - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+    container_name: kafka
+    hostname: kafka
+    networks:
+      - backend
+    depends_on:
+      - zookeeper
+
+  api:
+    extends:
+      file: docker-compose.base.yml
+      service: app-base
+    command: npm run api:dev
+    hostname: api
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/api/src
+          target: /app/apps/api/src
+          ignore:
+            - node_modules
+        - action: rebuild
+          path: ./package.json
+          target: /app/package.json
+    environment:
+      NODE_GLOBAL_ENV: /app/.env
+      NODE_LOCAL_ENV: /app/apps/api/.env
+    ports:
+      - 8080:8080
+    networks:
+      - backend
+    depends_on:
+      - kafka
+
+  db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_MULTIPLE_DATABASES: api, auth
+    volumes:
+      - ./multiple-databases.sh:/docker-entrypoint-initdb.d/multiple-databases.sh
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  # simple:
+  #   extends:
+  #     file: docker-compose.base.yml
+  #     service: nx-app-base
+  #   command: npm run simple:dev
+  #   hostname: simple
+  #   develop:
+  #     watch:
+  #       - action: sync
+  #         path: ./apps/simple/src
+  #         target: /app/apps/simple/src
+  #         ignore:
+  #           - node_modules
+  #       - action: rebuild
+  #         path: ./package.json
+  #         target: /app/package.json
+  #   networks:
+  #     - backend
+  #   depends_on:
+  #     kafka:
+  #       condition: service_started
+
+  auth:
+    extends:
+      file: docker-compose.base.yml
+      service: app-base
+    command: npm run auth:dev
+    hostname: auth
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/auth/src
+          target: /app/apps/auth/src
+          ignore:
+            - node_modules
+        - action: rebuild
+          path: ./package.json
+          target: /app/package.json
+    environment:
+      NODE_GLOBAL_ENV: /app/.env
+      NODE_LOCAL_ENV: /app/apps/auth/.env
+    networks:
+      - backend
+    depends_on:
+      kafka:
+        condition: service_started
+      db:
+        condition: service_started
+
+  # authdb:
+  #   ports:
+  #     - 5433:5432
+  #   extends:
+  #     file: docker-compose.base.yml
+  #     service: pg-sql
+  #   networks:
+  #     - backend
+
+  # frontend:
+  #   extends:
+  #     file: docker-compose.base.yml
+  #     service: nx-app-base
+  #   command: npm run front:dev
+  #   hostname: frontend
+  #   develop:
+  #     watch:
+  #       - action: sync
+  #         path: ./apps/frontend/src
+  #         target: /app/apps/frontend/src
+  #         ignore:
+  #           - node_modules
+  #       - action: rebuild
+  #         path: ./package.json
+  #         target: /app/package.json
+  #   ports:
+  #     - 80:3000
+  #   networks:
+  #     - frontend
+
+volumes:
+  mono-node-modules: null
+  postgres:
+    driver: local
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge

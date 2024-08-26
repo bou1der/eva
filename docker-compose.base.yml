@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  app-base:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: base
+    environment:
+      - DEV_PLATFORM=DOCKER
+    volumes:
+      # - ./:/app
+      - mono-node-modules:/app/node_modules
+  pg-sql:
+    restart: always
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: auth
+    volumes:
+      - postgres:/var/lib/postgresql/data
