@@ -155,6 +155,31 @@ services:
       db:
         condition: service_started
 
+  mailer:
+    extends:
+      file: docker-compose.base.yml
+      service: app-base
+    command: npm run mailer:dev
+    hostname: mailer
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/mailer/src
+          target: /app/apps/mailer/src
+          ignore:
+            - node_modules
+        - action: rebuild
+          path: ./package.json
+          target: /app/package.json
+    environment:
+      NODE_GLOBAL_ENV: /app/.env
+      NODE_LOCAL_ENV: /app/apps/mailer/.env
+    networks:
+      - backend
+    depends_on:
+      kafka:
+        condition: service_started
+
   # authdb:
   #   ports:
   #     - 5433:5432

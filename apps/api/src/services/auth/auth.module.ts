@@ -22,6 +22,21 @@ const Config = new ConfigService();
         },
       },
     ]),
+    ClientsModule.register([
+      {
+        name: 'MAIL_SERVICE',
+        transport: Transport.KAFKA,
+        options: {
+          client: {
+            clientId: Config.get('MAILER_CLIENT'),
+            brokers: [Config.get('KAFKA_BROKER')],
+          },
+          consumer: {
+            groupId: Config.get('MAILER_GROUP'),
+          },
+        },
+      },
+    ]),
   ],
   providers: [AuthService],
   controllers: [AuthController],

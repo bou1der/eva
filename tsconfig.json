@@ -29,6 +29,9 @@
       ],
       "@type/*": [
         "libs/shared/src/lib/types/*"
+      ],
+      "@type/service/*": [
+        "libs/shared/src/lib/services/*"
       ]
     }
   }
