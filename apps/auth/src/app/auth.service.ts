@@ -18,6 +18,7 @@ export class AuthService {
 
     if (existUser) {
       // throw new
+      return 5;
     }
 
     return 'signup-pattern';

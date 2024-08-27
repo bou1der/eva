@@ -21,7 +21,7 @@ export class AuthService {
     const user = this.client
       .send('get-user', JSON.stringify(dto))
       .subscribe((value: UserEntity) => {
-        console.log(value.id);
+        console.log(value);
         return value;
       });
     return user;
