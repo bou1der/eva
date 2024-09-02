@@ -1,22 +1,21 @@
+import { EnvModule, EnvService } from '@config/global';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { Module } from '@nestjs/common';
-import ConfigService from '~/libs/shared/src/lib/config';
+import { Global, Module } from '@nestjs/common';
 
-const Config = new ConfigService();
+@Global()
 @Module({
   imports: [
-    MailerModule.forRoot({
-      transport: {
-        url: Config.get('MAIL_SERVER'),
-        port: 587,
-      },
-      defaults: {
-        from: `${Config.get('MAIL_FROM')}`,
-      },
-      options: {
-        global: true,
-      },
+    MailerModule.forRootAsync({
+      imports: [EnvModule],
+      useFactory: async (config: EnvService) => ({
+        transport: config.get('MAIL_SERVER'),
+        defaults: {
+          from: config.get('MAIL_FROM'),
+        },
+      }),
+      inject: [EnvService],
     }),
   ],
+  exports: [MailerModule],
 })
 export class MailerServer {}

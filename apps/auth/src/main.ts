@@ -1,23 +1,22 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
-import ConfigService from '@ConfigService';
+import { ConfigService } from '@config/global';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AppConfigModule } from './app.config';
 
 async function bootstrap() {
-  const Config = new ConfigService();
+  const config = new ConfigService();
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppConfigModule,
     {
       transport: Transport.KAFKA,
       options: {
         client: {
-          brokers: [Config.get('KAFKA_BROKER')],
-          clientId: Config.get('AUTH_CLIENT'),
+          brokers: [config.get('KAFKA_BROKER')],
         },
         consumer: {
-          groupId: Config.get('AUTH_GROUP'),
+          groupId: config.get('AUTH_GROUP'),
         },
       },
     },

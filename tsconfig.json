@@ -22,16 +22,22 @@
         "./*"
       ],
       "@nest/user/dto": [
-        "libs/shared/src/lib/dto/index.ts"
+        "libs/shared/src/lib/dto/users/index.ts"
       ],
-      "@ConfigService": [
+      "@config/global": [
         "libs/shared/src/lib/config/index.ts"
       ],
       "@type/*": [
         "libs/shared/src/lib/types/*"
       ],
-      "@type/service/*": [
-        "libs/shared/src/lib/services/*"
+      "@state/modules": [
+        "libs/state/src/modules/index.ts"
+      ],
+      "@app/state": [
+        "libs/state/src"
+      ],
+      "@app/state/*": [
+        "libs/state/src/*"
       ]
     }
   }

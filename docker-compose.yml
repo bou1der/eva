@@ -180,15 +180,6 @@ services:
       kafka:
         condition: service_started
 
-  # authdb:
-  #   ports:
-  #     - 5433:5432
-  #   extends:
-  #     file: docker-compose.base.yml
-  #     service: pg-sql
-  #   networks:
-  #     - backend
-
   # frontend:
   #   extends:
   #     file: docker-compose.base.yml

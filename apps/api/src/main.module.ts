@@ -1,8 +1,10 @@
+import { EnvModule } from '@config/global';
 import { Module } from '@nestjs/common';
-import { EnvGlobalModule } from '~/libs/shared/src/config.module';
-import { ServicesModule } from './services/services.module';
+import { AuthClientModule } from '~/libs/state/src/modules';
+import { GatewayModule } from './gateway/gateway.module';
 
 @Module({
-  imports: [EnvGlobalModule, ServicesModule],
+  imports: [EnvModule, AuthClientModule, GatewayModule],
+  providers: [],
 })
 export class MainModule {}

@@ -34,6 +34,7 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "crypto": "^1.0.1",
     "kafkajs": "^2.2.4",
     "nodemailer": "^6.9.14",
     "passport": "^0.7.0",
@@ -91,7 +92,8 @@
     ],
     "moduleNameMapper": {
       "^libs /libs(|/.*)$": "<rootDir>/libs/libs/src/$1",
-      "^libs/shared(|/.*)$": "<rootDir>/libs/shared/src/$1"
+      "^libs/shared(|/.*)$": "<rootDir>/libs/shared/src/$1",
+      "^@app/state(|/.*)$": "<rootDir>/libs/state/src/$1"
     }
   }
 }

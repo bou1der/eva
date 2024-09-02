@@ -47,6 +47,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/mailer/tsconfig.app.json"
       }
+    },
+    "state": {
+      "type": "library",
+      "root": "libs/state",
+      "entryFile": "index",
+      "sourceRoot": "libs/state/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/state/tsconfig.lib.json"
+      }
     }
   }
 }

@@ -1,8 +1,9 @@
+import { ConfigService } from '@config/global';
 import { Global, Logger, Module } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import ConfigService from '~/libs/shared/src/lib/config';
 import { AccountEntity } from '~/libs/shared/src/lib/entities/account.entity';
 import { UserEntity } from '~/libs/shared/src/lib/entities/user.entity';
+import { VerificationEntity } from '~/libs/shared/src/lib/entities/verification.entity';
 
 @Global()
 @Module({
@@ -15,7 +16,7 @@ import { UserEntity } from '~/libs/shared/src/lib/entities/user.entity';
             type: 'postgres',
             url: new ConfigService().get('DATABASE_URL'),
             synchronize: true,
-            entities: [UserEntity, AccountEntity],
+            entities: [UserEntity, AccountEntity, VerificationEntity],
           });
           if (await db.initialize()) {
             console.log('Auth database successfully');
