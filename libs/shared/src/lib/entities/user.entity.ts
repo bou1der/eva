@@ -1,16 +1,13 @@
 import { Role, RolesArray } from '@type/enums';
-import { IsEmail, IsNotEmpty } from 'class-validator';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AccountEntity } from './account.entity';
 
 @Entity('user')
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  readonly id: string;
 
   @Column({ unique: true })
-  @IsEmail()
-  @IsNotEmpty()
   email: string;
 
   @Column({
@@ -25,6 +22,12 @@ export class UserEntity {
   })
   role: Role;
 
-  @OneToOne(() => AccountEntity)
-  account: string;
+  @OneToMany(() => AccountEntity, (account) => account.user, {
+    cascade: true,
+  })
+  accounts: AccountEntity[];
+  // @OneToOne(() => AccountEntity, {
+  //   nullable: false,
+  //   cascade: ['insert'],
+  // })
 }

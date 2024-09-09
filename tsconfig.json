@@ -18,11 +18,8 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "~/*": [
-        "./*"
-      ],
-      "@nest/user/dto": [
-        "libs/shared/src/lib/dto/users/index.ts"
+      "@shared/dto": [
+        "libs/shared/src/lib/dto/index.ts"
       ],
       "@config/global": [
         "libs/shared/src/lib/config/index.ts"
@@ -33,11 +30,17 @@
       "@state/modules": [
         "libs/state/src/modules/index.ts"
       ],
+      "@shared/entities": [
+        "libs/shared/src/lib/entities/index.ts"
+      ],
       "@app/state": [
         "libs/state/src"
       ],
       "@app/state/*": [
         "libs/state/src/*"
+      ],
+      "~/*": [
+        "./*"
       ]
     }
   }

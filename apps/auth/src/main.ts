@@ -1,22 +1,29 @@
-import { Logger } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
-import { ConfigService } from '@config/global';
+import { EnvModule, EnvService } from '@config/global';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { AppConfigModule } from './app.config';
+import { AppModule } from './app.module';
+
+@Module({
+  imports: [EnvModule],
+})
+class Bootstrap {}
 
 async function bootstrap() {
-  const config = new ConfigService();
+  const appCtx = await NestFactory.createApplicationContext(Bootstrap);
+  const env = appCtx.get(EnvService);
+
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppConfigModule,
+    AppModule,
     {
       transport: Transport.KAFKA,
       options: {
         client: {
-          brokers: [config.get('KAFKA_BROKER')],
+          brokers: [env.get('KAFKA_BROKER')],
         },
         consumer: {
-          groupId: config.get('AUTH_GROUP'),
+          groupId: env.get('AUTH_GROUP'),
         },
       },
     },

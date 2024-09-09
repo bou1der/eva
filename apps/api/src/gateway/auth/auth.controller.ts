@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { CreateUserDto } from '~/libs/shared/src/lib/dto/users';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { CreateUserDto } from '@shared/dto';
+import { JwtGuard } from '../../guards/jwt.guard';
 import { AuthService } from './auth.service';
 
 @Controller('/auth')
@@ -8,17 +9,27 @@ export class AuthController {
 
   @Post('/signup')
   async signup(@Body() dto: CreateUserDto) {
-    return await this.authService.signup(dto);
+    this.authService.signup(dto);
   }
 
   @Get('/signin:token')
   async signin(@Param('token') token: string) {
-    console.log(token);
-    return `<h1>${token}</h1>`;
+    return await this.authService.signin(token);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.authService.findOne(+id);
-  // }
+  @Get('/refresh')
+  async refresh() {
+    return await this.authService.refresh();
+  }
+  @Get('/logout')
+  async logout() {
+    return await this.authService.logout();
+  }
+
+  @Get('/')
+  @UseGuards(JwtGuard)
+  test() {
+    console.log('guard is true');
+    return;
+  }
 }

@@ -1,3 +1,3 @@
-export * from './auth-client.module';
+export * from './auth/auth-client.module';
 export * from './jwt.module';
-export * from './mailer-client.module';
+export * from './mailer/index';

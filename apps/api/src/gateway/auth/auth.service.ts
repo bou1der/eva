@@ -1,20 +1,21 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ClientKafka } from '@nestjs/microservices';
-import { AUTH_SERVICE } from '@state/modules';
-import { firstValueFrom } from 'rxjs';
-import { CreateUserDto } from '~/libs/shared/src/lib/dto/users';
+import { AuthTransportService } from '@app/state/modules/auth/auth-client.service';
+import { Injectable } from '@nestjs/common';
+import { CreateUserDto, JwtDto } from '~/libs/shared/src/lib/dto/users';
 
 @Injectable()
 export class AuthService {
-  constructor(@Inject(AUTH_SERVICE) private readonly client: ClientKafka) {}
+  constructor(private readonly AuthTransport: AuthTransportService) {}
 
   async signup(dto: CreateUserDto) {
-    this.client.subscribeToResponseOf('signup');
-
-    const res$ = this.client.send<any>('signup', JSON.stringify(dto));
-
-    const res = await firstValueFrom(res$);
-    console.log(res);
-    return res;
+    await this.AuthTransport.signup(dto);
+  }
+  async signin(token: string) {
+    await this.AuthTransport.signin(token);
+  }
+  async refresh(jwt: JwtDto) {
+    await this.AuthTransport.refresh(jwt);
+  }
+  async logout() {
+    await this.AuthTransport.logout();
   }
 }

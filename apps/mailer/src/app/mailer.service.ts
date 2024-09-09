@@ -1,7 +1,7 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import { SendMailDto } from '@shared/dto';
 import { EnvService } from '~/libs/shared/src/lib/config';
-import { verifyMail } from '~/libs/shared/src/lib/dto/send-mail.dto';
 
 @Injectable()
 export class MailService {
@@ -19,7 +19,7 @@ export class MailService {
 
     console.log('Mail send');
   }
-  verify(dto: verifyMail) {
+  sendVerifyMail(dto: SendMailDto) {
     console.log(dto);
     try {
       this.MailerService.sendMail({
@@ -27,7 +27,7 @@ export class MailService {
         subject: 'Test verify',
         from: `nir4y@yandex.ru`,
         text: 'лютый отсос',
-        html: `<a>${this.config.get('SERVER_HOST')}/api/auth/signin${dto.token}</a>`,
+        html: `<a>${this.config.get('SERVER_HOST')}/api/auth/verify${dto.token}</a>`,
       });
     } catch (error) {
       console.log(error);
