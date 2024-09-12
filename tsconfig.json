@@ -18,29 +18,38 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@shared/dto": [
-        "libs/shared/src/lib/dto/index.ts"
+      "@app/providers": [
+        "libs/providers/src"
       ],
-      "@config/global": [
-        "libs/shared/src/lib/config/index.ts"
+      "@app/providers/*": [
+        "libs/providers/src/*"
+      ],
+      "@lib/entities": [
+        "libs/entities/src"
+      ],
+      "@lib/entities/*": [
+        "libs/entities/src/*"
+      ],
+      "@app/domain": [
+        "libs/domain/src"
+      ],
+      "@app/domain/*": [
+        "libs/domain/src/*"
       ],
       "@type/*": [
-        "libs/shared/src/lib/types/*"
+        "libs/types/src/*"
       ],
-      "@state/modules": [
-        "libs/state/src/modules/index.ts"
+      "@app/repositories": [
+        "libs/repositories/src"
       ],
-      "@shared/entities": [
-        "libs/shared/src/lib/entities/index.ts"
+      "@app/repositories/*": [
+        "libs/repositories/src/*"
       ],
-      "@app/state": [
-        "libs/state/src"
+      "@lib/dto": [
+        "libs/dto/src"
       ],
-      "@app/state/*": [
-        "libs/state/src/*"
-      ],
-      "~/*": [
-        "./*"
+      "@lib/dto/*": [
+        "libs/dto/src/*"
       ]
     }
   }

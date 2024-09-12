@@ -7,55 +7,80 @@
     "webpack": true,
     "tsConfigPath": "apps/api/tsconfig.app.json"
   },
-  "monorepo": true,
-  "root": "apps/api",
   "projects": {
+    "config": {
+      "type": "library",
+      "root": "libs/config",
+      "entryFile": "index",
+      "sourceRoot": "libs/config/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/config/tsconfig.lib.json"
+      }
+    },
+    "providers": {
+      "type": "library",
+      "root": "libs/providers",
+      "entryFile": "index",
+      "sourceRoot": "libs/providers/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/providers/tsconfig.lib.json"
+      }
+    },
+    "entities": {
+      "type": "library",
+      "root": "libs/entities",
+      "entryFile": "index",
+      "sourceRoot": "libs/entities/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/entities/tsconfig.lib.json"
+      }
+    },
     "api": {
       "type": "application",
       "root": "apps/api",
       "entryFile": "main",
       "sourceRoot": "apps/api/src",
       "compilerOptions": {
-        "webpack": true,
         "tsConfigPath": "apps/api/tsconfig.app.json"
       }
     },
-    "auth": {
-      "type": "application",
-      "root": "apps/auth",
-      "entryFile": "main",
-      "sourceRoot": "apps/auth/src",
-      "compilerOptions": {
-        "webpack": true,
-        "tsConfigPath": "apps/auth/tsconfig.app.json"
-      }
-    },
-    "shared": {
+    "domain": {
       "type": "library",
-      "root": "libs/shared",
+      "root": "libs/domain",
       "entryFile": "index",
-      "sourceRoot": "libs/shared/src",
+      "sourceRoot": "libs/domain/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/shared/tsconfig.lib.json"
+        "tsConfigPath": "libs/domain/tsconfig.lib.json"
       }
     },
-    "mailer": {
-      "type": "application",
-      "root": "apps/mailer",
-      "entryFile": "main",
-      "sourceRoot": "apps/mailer/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/mailer/tsconfig.app.json"
-      }
-    },
-    "state": {
+    "types": {
       "type": "library",
-      "root": "libs/state",
+      "root": "libs/types",
       "entryFile": "index",
-      "sourceRoot": "libs/state/src",
+      "sourceRoot": "libs/types/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/state/tsconfig.lib.json"
+        "tsConfigPath": "libs/types/tsconfig.lib.json"
+      }
+    },
+    "repositories": {
+      "type": "library",
+      "root": "libs/repositories",
+      "entryFile": "index",
+      "sourceRoot": "libs/repositories/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/repositories/tsconfig.lib.json"
+      }
+    },
+    "dto": {
+      "type": "library",
+      "root": "libs/dto",
+      "entryFile": "index",
+      "sourceRoot": "libs/dto/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/dto/tsconfig.lib.json"
       }
     }
-  }
+  },
+  "monorepo": true,
+  "root": "apps/api"
 }

@@ -1,26 +1,25 @@
-FROM docker.io/node:lts-alpine AS app
+FROM docker.io/node:lts-alpine AS dev
 
 WORKDIR /app
 
 COPY . .
 
+ENV NODE_ENV=dev
+
 RUN npm install
 
-
-FROM postgres:latest AS postgres
-
-ENV POSTGRES_USER=admin
-ENV POSTGRES_PASSWORD=admin
-ENV POSTGRES_DB=microdb
-ENV PGDATA=/var/lib/postgresql/data
+RUN npx nest build entities --tsc
 
 
-FROM docker.io/node:lts-alpine AS base
+FROM docker.io/node:lts-alpine AS prod
 
 WORKDIR /app
 
 COPY . .
 
+ENV NODE_ENV=prod
+
 RUN npm install
 
-CMD [ "npm" "run" "start" "api" ]
+
+
