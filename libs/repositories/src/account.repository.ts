@@ -9,7 +9,7 @@ export class AccountRepository {
     this.repository = this.db.getRepository(Account);
   }
 
-  async find(input: typeof AccountFilterSchema._type) {
+  async find(input: AccountFilterSchema) {
     return await this.repository.find({
       where: [
         input?.access ? { access: input.access } : undefined,

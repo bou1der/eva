@@ -79,6 +79,24 @@
       "compilerOptions": {
         "tsConfigPath": "libs/dto/tsconfig.lib.json"
       }
+    },
+    "guards": {
+      "type": "library",
+      "root": "libs/guards",
+      "entryFile": "index",
+      "sourceRoot": "libs/guards/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/guards/tsconfig.lib.json"
+      }
+    },
+    "adapters": {
+      "type": "library",
+      "root": "libs/adapters",
+      "entryFile": "index",
+      "sourceRoot": "libs/adapters/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/adapters/tsconfig.lib.json"
+      }
     }
   },
   "monorepo": true,

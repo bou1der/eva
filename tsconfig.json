@@ -50,6 +50,12 @@
       ],
       "@lib/dto/*": [
         "libs/dto/src/*"
+      ],
+      "@app/guards/*": [
+        "libs/guards/src/*"
+      ],
+      "@app/adapters/*": [
+        "libs/adapters/src/*"
       ]
     }
   }

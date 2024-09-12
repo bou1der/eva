@@ -27,6 +27,7 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.0",
+    "@nestjs/jwt": "^10.2.0",
     "@nestjs/microservices": "^10.4.1",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
@@ -94,7 +95,9 @@
       "^@lib/domain(|/.*)$": "<rootDir>/libs/domain/src/$1",
       "^@type/types(|/.*)$": "<rootDir>/libs/types/src/$1",
       "^app/repositories(|/.*)$": "<rootDir>/libs/repositories/src/$1",
-      "^@lib/dto(|/.*)$": "<rootDir>/libs/dto/src/$1"
+      "^@lib/dto(|/.*)$": "<rootDir>/libs/dto/src/$1",
+      "^@app/guards(|/.*)$": "<rootDir>/libs/guards/src/$1",
+      "^@app/adapters(|/.*)$": "<rootDir>/libs/adapters/src/$1"
     }
   }
 }
