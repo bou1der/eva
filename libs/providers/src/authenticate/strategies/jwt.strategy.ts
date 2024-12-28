@@ -1,13 +1,15 @@
 import { ConfigService } from '@app/providers/config/config.service';
-import { HttpRequestContext } from '@lib/dto';
+import { IHttpRequestContext } from '@lib/dto';
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
+@Injectable()
 export class jwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly env: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (request: HttpRequestContext) => {
+        (request: IHttpRequestContext) => {
           return request.session.jwt.access;
         },
       ]),

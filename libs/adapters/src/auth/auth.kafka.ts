@@ -1,3 +1,4 @@
+import { ConfigModule } from '@app/providers/config/config.module';
 import { ConfigService } from '@app/providers/config/config.service';
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
@@ -7,6 +8,7 @@ export const AUTH_SERVICE = 'AUTH_SERVICE';
   imports: [
     ClientsModule.registerAsync([
       {
+        imports: [ConfigModule],
         name: AUTH_SERVICE,
         useFactory: (config: ConfigService) => ({
           transport: Transport.KAFKA,
@@ -17,11 +19,15 @@ export const AUTH_SERVICE = 'AUTH_SERVICE';
             consumer: {
               groupId: config.get('AUTH_GROUP'),
             },
+            subscribe: {
+              fromBeginning: true,
+            },
           },
         }),
         inject: [ConfigService],
       },
     ]),
   ],
+  exports: [ClientsModule],
 })
-export class AuthAdapterModule {}
+export class AuthKafkaModule {}

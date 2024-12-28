@@ -1,4 +1,4 @@
-import { AuthAdapter } from '@app/adapters/provide/auth.adapter';
+import { AuthAdapter } from '@app/adapters/auth/auth.adapter';
 import { IHttpRequestContext } from '@lib/dto';
 import {
   CanActivate,

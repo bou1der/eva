@@ -1,8 +1,10 @@
-import { CreateUserDto } from '@lib/dto/create.user.dto';
+import { CreateUserDto } from '@lib/dto/user/create.user.dto';
 import { User } from '@lib/entities';
+import { Injectable } from '@nestjs/common';
 import { UserFilterSchema } from '@type/filters';
 import { DataSource, Repository } from 'typeorm';
 
+@Injectable()
 export class UserRepository {
   private repository: Repository<User>;
 
@@ -22,7 +24,7 @@ export class UserRepository {
     });
   }
 
-  async findOne(input: UserFilterSchema) {
+  async findOne(input: UserFilterSchema): Promise<User | undefined> {
     return await this.repository.findOne({
       where: [
         input?.id ? { id: input.id } : undefined,
@@ -47,7 +49,6 @@ export class UserRepository {
   }
 
   async create(dto: CreateUserDto) {
-    return (await this.repository.insert({ email: dto.email }))
-      .generatedMaps[0];
+    return await this.repository.save({ email: dto.email });
   }
 }

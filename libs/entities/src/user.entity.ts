@@ -36,8 +36,8 @@ export class User implements UserAbstract {
   })
   role: Role;
 
-  @OneToMany(() => Account, (accounts) => accounts.id)
-  @JoinColumn({ name: 'accounts_id' })
+  @OneToMany(() => Account, (account) => account.user)
+  @JoinColumn()
   accounts?: Account[];
 
   @CreateDateColumn({

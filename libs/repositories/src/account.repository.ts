@@ -1,7 +1,9 @@
 import { Account } from '@lib/entities';
+import { Injectable } from '@nestjs/common';
 import { AccountFilterSchema } from '@type/filters';
 import { DataSource, Repository } from 'typeorm';
 
+@Injectable()
 export class AccountRepository {
   private repository: Repository<Account>;
 
@@ -14,7 +16,11 @@ export class AccountRepository {
       where: [
         input?.access ? { access: input.access } : undefined,
         input?.refresh ? { refresh: input.refresh } : undefined,
-        { user: { email: input.email } },
+        {
+          user: {
+            email: input.email,
+          },
+        },
       ],
     });
   }

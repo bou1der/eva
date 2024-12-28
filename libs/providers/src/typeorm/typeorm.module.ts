@@ -1,5 +1,5 @@
+import { Account, User, Verification } from '@lib/entities';
 import { Logger, Module } from '@nestjs/common';
-import { join } from 'path';
 import { DataSource } from 'typeorm';
 import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';
@@ -15,22 +15,13 @@ import { ConfigService } from '../config/config.service';
             type: 'postgres',
             url: config.get('DATABASE_URL'),
             synchronize: true,
-            entities: [
-              join(
-                process.cwd(),
-                'dist',
-                'libs',
-                'entities',
-                '**',
-                '*.entity.{ts,js}',
-              ),
-            ],
+            entities: [User, Verification, Account],
             logging: !(config.get('NODE_ENV') === 'prod'),
-            migrations: [
-              join(process.cwd(), 'migrations', '**', '*migration.ts'),
-            ],
-            migrationsRun: false,
-            migrationsTableName: 'migrations-test',
+            // migrations: [
+            //   join(process.cwd(), 'migrations', '**', '*migration.ts'),
+            // ],
+            // migrationsRun: false,
+            // migrationsTableName: 'migrations-test',
           });
 
           if (await db.initialize()) {

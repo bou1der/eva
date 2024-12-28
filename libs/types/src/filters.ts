@@ -2,6 +2,7 @@ import {
   IsEmail,
   IsEnum,
   IsJWT,
+  IsNotEmpty,
   IsOptional,
   IsString,
   IsUUID,
@@ -36,4 +37,14 @@ export class AccountFilterSchema {
   @IsJWT()
   @IsOptional()
   refresh?: string;
+}
+
+export class VerificationFilterSchema {
+  @IsNotEmpty()
+  @IsString()
+  token?: string;
+
+  @IsString()
+  @IsEmail()
+  email?: string;
 }

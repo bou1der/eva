@@ -8,13 +8,9 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
       - 5050:80
-
-volumes:
-  postgres:
-    driver: local
+    networks:
+      - backend
 
 networks:
   backend:
-    driver: bridge
-  frontend:
-    driver: bridge
+    driver: host

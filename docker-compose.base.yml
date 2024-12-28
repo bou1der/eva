@@ -16,6 +16,9 @@ services:
           path: ./libs
           target: /app/libs/
         - action: rebuild
+          path: ./libs/entities/src/
+          target: ./app/libs/entities/src/
+        - action: rebuild
           path: ./package.json
           target: /app/package.json
     volumes:

@@ -56,7 +56,6 @@ services:
     networks:
       - backend
     depends_on:
-      - db
       - kafka
 
   db:
@@ -71,38 +70,34 @@ services:
       POSTGRES_USER: admin
       POSTGRES_DB: evacuation
     volumes:
-      # - ./multiple-databases.sh:/docker-entrypoint-initdb.d/multiple-databases.sh
       - postgres:/var/lib/postgresql/data
     networks:
       - backend
 
-  # auth:
-  #   extends:
-  #     file: docker-compose.base.yml
-  #     service: app-base
-  #   command: npm run auth:dev
-  #   hostname: auth
-  #   develop:
-  #     watch:
-  #       - action: sync
-  #         path: ./apps/auth/src
-  #         target: /app/apps/auth/src
-  #         ignore:
-  #           - node_modules
-  #       - action: rebuild
-  #         path: ./package.json
-  #         target: /app/package.json
-  #   environment:
-  #     NODE_GLOBAL_ENV: /app/.env
-  #     NODE_LOCAL_ENV: /app/apps/auth/.env
-  #   networks:
-  #     - backend
-  #   depends_on:
-  #     kafka:
-  #       condition: service_started
-  #     db:
-  #       condition: service_started
-  #
+  auth:
+    extends:
+      file: docker-compose.base.yml
+      service: app-base
+    command: npm run auth:dev
+    hostname: auth
+    container_name: authenticate
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/auth/src
+          target: /app/apps/auth/src
+          ignore:
+            - node_modules
+    environment:
+      NODE_LOCAL_ENV: /app/apps/auth/.env
+    networks:
+      - backend
+    depends_on:
+      kafka:
+        condition: service_started
+      db:
+        condition: service_started
+
   # mailer:
   #   extends:
   #     file: docker-compose.base.yml

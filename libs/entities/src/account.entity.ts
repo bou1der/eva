@@ -13,7 +13,7 @@ export class Account implements AccountAbstract {
   access?: string;
   refresh?: string;
 
-  @OneToOne(() => User, (user) => user.id)
+  @OneToOne(() => User, (user) => user.accounts)
   @JoinColumn({
     name: 'user_id',
   })
